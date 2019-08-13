@@ -40,7 +40,7 @@ while True:
 
         # 時刻の変換
         time_str = (
-                '%04d/%2d/%2d %2d:%02d:%02d' %
+                '20%02d/%02d/%02d %02d:%02d:%02d' %
                 (
                     gps.date[2], gps.date[1], gps.date[0],
                     h, gps.timestamp[1], gps.timestamp[2]
