@@ -19,7 +19,7 @@ def write_position(path, rec_time, lon, lat, alt, satellites_used):
     """
 
     # 衛星番号の整形
-    satellites_str = '-'.join(satellites_used)
+    satellites_str = '-'.join(str(satellites_used))
 
     # 書き込み
     with open(file=path, mode='a') as f:
