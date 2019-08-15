@@ -16,7 +16,6 @@ def write_position(path, rec_time, lon, lat, alt, satellites_used):
     :type alt: float
     :param satellites_used: 測位衛星番号
     :type satellites_used: list
-    :return: none
     """
 
     # 衛星番号の整形
