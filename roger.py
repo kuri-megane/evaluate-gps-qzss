@@ -7,6 +7,7 @@ import serial
 from output_csv import write_position
 
 gps = micropyGPS.MicropyGPS()  # MicroGPSオブジェクトを生成する。
+gps.coord_format = 'dd'
 
 
 # 引数はタイムゾーンの時差と出力フォーマット
