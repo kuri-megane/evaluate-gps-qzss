@@ -1,5 +1,6 @@
 import threading
 import time
+import os
 
 from micropy_gps import micropyGPS
 import serial
@@ -27,6 +28,10 @@ gpsthread = threading.Thread(target=rungps, args=())  # 上の関数を実行す
 gpsthread.daemon = True
 gpsthread.start()  # スレッドを起動
 
+# 結果ファイル作成
+output_dir = "./data"
+os.makedirs(path=output_dir, exist_ok=True)
+
 while True:
     if gps.clean_sentences > 20:  # ちゃんとしたデーターがある程度たまったら出力する
         h = gps.timestamp[0] if gps.timestamp[0] < 24 else gps.timestamp[0] - 24
@@ -50,7 +55,7 @@ while True:
         )
 
         write_position(
-            path="./data.csv",
+            path="./data/log.csv",
             rec_time=time_str,
             lat=gps.latitude[0],
             lon=gps.longitude[0],
