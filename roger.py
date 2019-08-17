@@ -30,7 +30,7 @@ gpsthread.start()  # スレッドを起動
 
 # 結果ファイル作成
 output_dir = "./data"
-os.makedirs(path=output_dir, exist_ok=True)
+os.makedirs(output_dir, exist_ok=True)
 
 while True:
     if gps.clean_sentences > 20:  # ちゃんとしたデーターがある程度たまったら出力する
