@@ -1,10 +1,10 @@
+import os
 import threading
 import time
-import os
 
-from micropy_gps import micropyGPS
 import serial
 
+from micropy_gps import micropyGPS
 from output_csv import write_position
 
 gps = micropyGPS.MicropyGPS()  # MicroGPSオブジェクトを生成する。
