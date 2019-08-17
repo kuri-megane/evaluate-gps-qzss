@@ -1,5 +1,7 @@
 #!/bin/bash
- 
+
+sleep 3m 
+
 ## config
 TODAY=$(date "+%Y%m%d")
 
