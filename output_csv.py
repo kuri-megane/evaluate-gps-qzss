@@ -1,7 +1,7 @@
 import csv
 
 
-def write_position(path, rec_time, lon, lat, alt, satellites_used):
+def write_position(path, rec_time, lon, lat, alt, speed, satellites_used):
     """
     csvに測位結果を書き込みます．
     :param path: 書き込み先
@@ -14,6 +14,8 @@ def write_position(path, rec_time, lon, lat, alt, satellites_used):
     :type lat: float
     :param alt: 海抜 メートル
     :type alt: float
+    :param speed: スピード
+    :type speed: float
     :param satellites_used: 測位衛星番号
     :type satellites_used: list
     """
@@ -25,5 +27,5 @@ def write_position(path, rec_time, lon, lat, alt, satellites_used):
     with open(file=path, mode='a') as f:
         writer = csv.writer(f)
         writer.writerow(
-            [rec_time, lon, lat, alt, satellites_str]
+            [rec_time, lon, lat, alt, speed, satellites_str]
         )

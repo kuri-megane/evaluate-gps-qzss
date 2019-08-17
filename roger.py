@@ -33,6 +33,7 @@ while True:
         print('%2d:%02d:%04.1f' % (h, gps.timestamp[1], gps.timestamp[2]))
         print('緯度経度: %2.8f, %2.8f' % (gps.latitude[0], gps.longitude[0]))
         print('海抜: %f' % gps.altitude)
+        print('スピード: %f' % gps.speed[2])
         print('測位利用衛星: %s' % gps.satellites_used)
         print('衛星番号: (仰角, 方位角, SN比)')
         for k, v in gps.satellite_data.items():
@@ -54,6 +55,7 @@ while True:
             lat=gps.latitude[0],
             lon=gps.longitude[0],
             alt=gps.altitude,
+            speed=gps.speed[2],
             satellites_used=gps.satellites_used
         )
 
