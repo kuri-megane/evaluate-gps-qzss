@@ -7,33 +7,54 @@ import serial
 from micropy_gps import micropyGPS
 from output_csv import write_position
 
-gps = micropyGPS.MicropyGPS()  # MicroGPSオブジェクトを生成する。
+gps = micropyGPS.MicropyGPS()
+
+# 出力のフォーマットは度数とする
 gps.coord_format = 'dd'
 
 
-# 引数はタイムゾーンの時差と出力フォーマット
+def run_gps():
+    """
+    GPSモジュールを読み、GPSオブジェクトを更新する
+    :return: None
+    """
 
-def rungps():  # GPSモジュールを読み、GPSオブジェクトを更新する
+    # GPSモジュールを読み込む設定
     s = serial.Serial('/dev/serial0', 9600, timeout=10)
-    s.readline()  # 最初の1行は中途半端なデーターが読めることがあるので、捨てる
+
+    # 最初の1行は中途半端なデーターが読めることがあるので、捨てる
+    s.readline()
     while True:
-        sentence = s.readline().decode('utf-8')  # GPSデーターを読み、文字列に変換する
-        if sentence[0] != '$':  # 先頭が'$'でなければ捨てる
+
+        # GPSデーターを読み、文字列に変換する
+        sentence = s.readline().decode('utf-8')
+
+        # 先頭が'$'でなければ捨てる
+        if sentence[0] != '$':
             continue
-        for x in sentence:  # 読んだ文字列を解析してGPSオブジェクトにデーターを追加、更新する
+
+        # 読んだ文字列を解析してGPSオブジェクトにデーターを追加、更新する
+        for x in sentence:
             gps.update(x)
 
 
-gpsthread = threading.Thread(target=rungps, args=())  # 上の関数を実行するスレッドを生成
-gpsthread.daemon = True
-gpsthread.start()  # スレッドを起動
+# 上の関数を実行するスレッドを生成
+gps_thread = threading.Thread(target=run_gps, args=())
+
+gps_thread.daemon = True
+
+# スレッドを起動
+gps_thread.start()
 
 # 結果ファイル作成
 output_dir = "./data"
 os.makedirs(output_dir, exist_ok=True)
 
 while True:
-    if gps.clean_sentences > 20:  # ちゃんとしたデーターがある程度たまったら出力する
+
+    # ちゃんとしたデーターがある程度たまったら出力する
+    if gps.clean_sentences > 20:
+
         h = gps.timestamp[0] if gps.timestamp[0] < 24 else gps.timestamp[0] - 24
         print('%2d:%02d:%04.1f' % (h, gps.timestamp[1], gps.timestamp[2]))
         print('緯度経度: %2.8f, %2.8f' % (gps.latitude[0], gps.longitude[0]))
@@ -64,4 +85,5 @@ while True:
             satellites_used=gps.satellites_used
         )
 
+    # 1秒に1回実行するように
     time.sleep(1.0)
